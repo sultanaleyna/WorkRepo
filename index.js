@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const axios = require('axios');
 const cron = require('node-cron');
-
+//const auth=require('./routes/auth.js')
 
 // MongoDB bağlantısı
 const connectDB = async () => {
@@ -17,10 +17,10 @@ const connectDB = async () => {
 
 
 // MongoDB Modeli
+
 const recordSchema = new mongoose.Schema({
-    id: { type: String, required: true, unique: true },
-    // Diğer alanlar burada tanımlanmalı
-    // Örneğin: field1: { type: String, required: true }
+    hesapKodu: { type: String, required: true },
+    toplamBorc: { type: Number, required: true }
 });
 
 const Record = mongoose.model('Record', recordSchema);
@@ -67,7 +67,8 @@ const fetchData = async () => {
             const existingRecord = await Record.findOne({ id: item.id });
             if (existingRecord) {
                 await Record.updateOne({ id: item.id }, item);
-            } else {
+            } else {// Veriler
+                
                 const newRecord = new Record(item);
                 await newRecord.save();
             }
@@ -86,14 +87,11 @@ cron.schedule('*/10 * * * *', async () => {
     await fetchData();
 });
 
-app.get('/api/records', async (req, res) => {
-    try {
-        const records = await Record.find({});
-        res.json(records);
-    } catch (error) {
-        res.status(500).send('Server Error');
-    }
-});
+// app.get('/',(req,res) => {
+//     res.json({message:"deneme 123"})
+// })
+
+
 
 app.listen(20000, () => {
     console.log('Server is running on port 20000');

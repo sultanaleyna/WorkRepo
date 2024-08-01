@@ -1,8 +1,8 @@
-// server/routes/records.js
+// models/routes/records.js
 
 const express = require('express');
 const router = express.Router();
-const Record = require('../models/recordModel');
+const Record = require('/models/recordModel');
 
 // Tüm kayıtları getir
 router.get('/', async (req, res) => {

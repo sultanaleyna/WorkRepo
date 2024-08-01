@@ -1,4 +1,4 @@
-// server/models/recordModel.js
+// smodels/recordModel.js
 
 const mongoose = require('mongoose');
 
